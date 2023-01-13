@@ -5,10 +5,15 @@ import (
 
 	medapp "github.com/mnogohoddovochka/med-app"
 	"github.com/mnogohoddovochka/med-app/pkg/handler"
+	"github.com/mnogohoddovochka/med-app/pkg/repository"
+	"github.com/mnogohoddovochka/med-app/pkg/service"
 )
 
 func main() {
-	handlers := new(handler.Handler)
+	repo := repository.NewRepository()
+	services := service.NewService(repo)
+	handlers := handler.NewHandler(services)
+
 	srv := new(medapp.Server)
 
 	if err := srv.Run("8000", handlers.InitRoutes()); err != nil {
