@@ -10,7 +10,7 @@ type Server struct {
 	httpServer *http.Server
 }
 
-func (s *Server) Start(port string) error {
+func (s *Server) Run(port string) error {
 	s.httpServer = &http.Server{
 		Addr:           ":" + port,
 		ReadTimeout:    10 * time.Second,
