@@ -1,8 +1,12 @@
 package service
 
-import "github.com/mnogohoddovochka/med-app/pkg/repository"
+import (
+	medapp "github.com/mnogohoddovochka/med-app"
+	"github.com/mnogohoddovochka/med-app/pkg/repository"
+)
 
 type Authorisation interface {
+	CreateDoctor(doctor medapp.Doctor) (int, error)
 }
 
 type DoctorList interface {
@@ -18,5 +22,7 @@ type Service struct {
 }
 
 func NewService(repo *repository.Repository) *Service {
-	return &Service{}
+	return &Service{
+		Authorisation: NewAuthService(repo.Authorisation),
+	}
 }

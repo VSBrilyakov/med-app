@@ -1,8 +1,12 @@
 package repository
 
-import "github.com/jmoiron/sqlx"
+import (
+	"github.com/jmoiron/sqlx"
+	medapp "github.com/mnogohoddovochka/med-app"
+)
 
 type Authorisation interface {
+	CreateDoctor(doctor medapp.Doctor) (int, error)
 }
 
 type DoctorList interface {
@@ -18,5 +22,7 @@ type Repository struct {
 }
 
 func NewRepository(db *sqlx.DB) *Repository {
-	return &Repository{}
+	return &Repository{
+		Authorisation: NewAuthPostgres(db),
+	}
 }
