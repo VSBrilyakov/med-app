@@ -1,9 +1,10 @@
 package medapp
 
 type Doctor struct {
-	Id       int    `json:"-"`
+	Id       int    `json:"-" db:"id"`
 	Name     string `json:"name" binding:"required"`
 	Surname  string `json:"surname" binding:"required"`
+	Login    string `json:"login" binding:"required"`
 	Password string `json:"password" binding:"required"`
 }
 

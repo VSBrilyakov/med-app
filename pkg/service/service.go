@@ -7,6 +7,7 @@ import (
 
 type Authorisation interface {
 	CreateDoctor(doctor medapp.Doctor) (int, error)
+	GenerateToken(login, password string) (string, error)
 }
 
 type DoctorList interface {
