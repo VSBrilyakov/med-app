@@ -11,19 +11,25 @@ type Authorisation interface {
 }
 
 type DoctorList interface {
+	GetAll() ([]medapp.Doctor, error)
 }
 
 type PatientList interface {
+}
+
+type VisitList interface {
 }
 
 type Repository struct {
 	Authorisation
 	DoctorList
 	PatientList
+	VisitList
 }
 
 func NewRepository(db *sqlx.DB) *Repository {
 	return &Repository{
 		Authorisation: NewAuthPostgres(db),
+		DoctorList:    NewDoctorsListPostgres(db),
 	}
 }
