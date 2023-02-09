@@ -2,6 +2,7 @@ package handler
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	medapp "github.com/mnogohoddovochka/med-app"
@@ -24,5 +25,17 @@ func (h *Handler) getAllDoctors(c *gin.Context) {
 }
 
 func (h *Handler) getDoctorById(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, "invalid id param")
+		return
+	}
 
+	doctor, err := h.services.DoctorList.GetById(id)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, doctor)
 }

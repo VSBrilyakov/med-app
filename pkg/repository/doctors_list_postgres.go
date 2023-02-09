@@ -23,3 +23,12 @@ func (r *DoctorsListPostgres) GetAll() ([]medapp.Doctor, error) {
 
 	return doctors, err
 }
+
+func (r *DoctorsListPostgres) GetById(id int) (medapp.Doctor, error) {
+	var doctor medapp.Doctor
+
+	query := fmt.Sprintf("SELECT id, name, surname, login FROM %s WHERE id = $1", doctorsTable)
+	err := r.db.Get(&doctor, query, id)
+
+	return doctor, err
+}

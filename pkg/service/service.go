@@ -13,6 +13,7 @@ type Authorisation interface {
 
 type DoctorList interface {
 	GetAll() ([]medapp.Doctor, error)
+	GetById(id int) (medapp.Doctor, error)
 }
 
 type PatientList interface {

@@ -16,3 +16,7 @@ func NewDoctorsListService(repo repository.DoctorList) *DoctorsListService {
 func (s *DoctorsListService) GetAll() ([]medapp.Doctor, error) {
 	return s.repo.GetAll()
 }
+
+func (s *DoctorsListService) GetById(id int) (medapp.Doctor, error) {
+	return s.repo.GetById(id)
+}
