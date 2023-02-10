@@ -17,6 +17,8 @@ type DoctorList interface {
 
 type PatientList interface {
 	CreatePatient(input medapp.Patient) (int, error)
+	GetAll() ([]medapp.Patient, error)
+	GetById(id int) (medapp.Patient, error)
 }
 
 type VisitList interface {

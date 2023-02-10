@@ -27,3 +27,21 @@ func (r *PatientsListPostgres) CreatePatient(input medapp.Patient) (int, error) 
 
 	return id, nil
 }
+
+func (r *PatientsListPostgres) GetAll() ([]medapp.Patient, error) {
+	var patients []medapp.Patient
+
+	query := fmt.Sprintf("SELECT id, name, surname, birthdate FROM %s", patientsTable)
+	err := r.db.Select(&patients, query)
+
+	return patients, err
+}
+
+func (r *PatientsListPostgres) GetById(id int) (medapp.Patient, error) {
+	var patient medapp.Patient
+
+	query := fmt.Sprintf("SELECT id, name, surname, birthdate FROM %s WHERE id = $1", patientsTable)
+	err := r.db.Get(&patient, query, id)
+
+	return patient, err
+}
