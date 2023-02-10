@@ -16,6 +16,7 @@ type DoctorList interface {
 }
 
 type PatientList interface {
+	CreatePatient(input medapp.Patient) (int, error)
 }
 
 type VisitList interface {
@@ -32,5 +33,6 @@ func NewRepository(db *sqlx.DB) *Repository {
 	return &Repository{
 		Authorisation: NewAuthPostgres(db),
 		DoctorList:    NewDoctorsListPostgres(db),
+		PatientList:   NewPatientsListPostgres(db),
 	}
 }

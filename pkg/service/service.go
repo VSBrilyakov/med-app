@@ -17,6 +17,7 @@ type DoctorList interface {
 }
 
 type PatientList interface {
+	CreatePatient(input medapp.Patient) (int, error)
 }
 
 type VisitList interface {
@@ -33,5 +34,6 @@ func NewService(repo *repository.Repository) *Service {
 	return &Service{
 		Authorisation: NewAuthService(repo.Authorisation),
 		DoctorList:    NewDoctorsListService(repo.DoctorList),
+		PatientList:   NewPatientsListService(repo.PatientList),
 	}
 }
