@@ -20,7 +20,6 @@ func (h *Handler) createPatient(c *gin.Context) {
 	}
 
 	var input medapp.Patient
-	// var input string = c.
 	if err := c.BindJSON(&input); err != nil {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
 		return

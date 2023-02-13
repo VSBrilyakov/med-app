@@ -1,1 +1,2 @@
 ALTER TABLE doctors DROP COLUMN login;
+ALTER TABLE visits DROP COLUMN date;

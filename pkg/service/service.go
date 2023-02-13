@@ -23,6 +23,7 @@ type PatientList interface {
 }
 
 type VisitList interface {
+	CreateVisit(input medapp.Visit) (int, error)
 }
 
 type Service struct {
@@ -37,5 +38,6 @@ func NewService(repo *repository.Repository) *Service {
 		Authorisation: NewAuthService(repo.Authorisation),
 		DoctorList:    NewDoctorsListService(repo.DoctorList),
 		PatientList:   NewPatientsListService(repo.PatientList),
+		VisitList:     NewVisitsListPostgres(repo.VisitList),
 	}
 }

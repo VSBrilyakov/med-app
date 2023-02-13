@@ -10,7 +10,7 @@ import (
 
 const (
 	authorisationHeader = "Authorization"
-	doctorCtx           = "doctorId"
+	doctorCtxId         = "doctorId"
 )
 
 func (h *Handler) doctorIdentity(c *gin.Context) {
@@ -32,11 +32,11 @@ func (h *Handler) doctorIdentity(c *gin.Context) {
 		return
 	}
 
-	c.Set(doctorCtx, doctorId)
+	c.Set(doctorCtxId, doctorId)
 }
 
 func getDoctorId(c *gin.Context) (int, error) {
-	id, ok := c.Get(doctorCtx)
+	id, ok := c.Get(doctorCtxId)
 	if !ok {
 		newErrorResponse(c, http.StatusInternalServerError, "doctor id is not found")
 		return 0, errors.New("doctor id is not found")

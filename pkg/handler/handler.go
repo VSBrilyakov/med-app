@@ -36,6 +36,13 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			patients.GET("/", h.getAllPatients)
 			patients.GET("/:id", h.getPatientById)
 		}
+
+		visits := api.Group("/visits")
+		{
+			visits.POST("/", h.createVisit)
+			// patients.GET("/", h.getAllVisits)
+			// patients.GET("/:id", h.getVisitById)
+		}
 	}
 
 	return router

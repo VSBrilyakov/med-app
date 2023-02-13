@@ -1,1 +1,2 @@
 ALTER TABLE doctors ADD COLUMN login varchar(255) NOT NULL;
+ALTER TABLE visits ADD COLUMN date date NOT NULL;
