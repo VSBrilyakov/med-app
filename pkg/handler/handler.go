@@ -40,8 +40,8 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		visits := api.Group("/visits")
 		{
 			visits.POST("/", h.createVisit)
-			// patients.GET("/", h.getAllVisits)
-			// patients.GET("/:id", h.getVisitById)
+			visits.GET("/", h.getAllVisits)
+			visits.GET("/:id", h.getVisitById)
 		}
 	}
 

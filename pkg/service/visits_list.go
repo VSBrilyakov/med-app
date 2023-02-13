@@ -16,3 +16,11 @@ func NewVisitsListPostgres(repo repository.VisitList) *VisitsListPostgres {
 func (s *VisitsListPostgres) CreateVisit(visit medapp.Visit) (int, error) {
 	return s.repo.CreateVisit(visit)
 }
+
+func (s *VisitsListPostgres) GetAll() ([]medapp.VisitOutput, error) {
+	return s.repo.GetAll()
+}
+
+func (s *VisitsListPostgres) GetById(id int) (medapp.VisitOutput, error) {
+	return s.repo.GetById(id)
+}

@@ -2,10 +2,15 @@ package handler
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	medapp "github.com/mnogohoddovochka/med-app"
 )
+
+type getAllVisitsResponse struct {
+	Data []medapp.VisitOutput `json:"data"`
+}
 
 func (h *Handler) createVisit(c *gin.Context) {
 	var input medapp.Visit
@@ -23,4 +28,32 @@ func (h *Handler) createVisit(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"id": id,
 	})
+}
+
+func (h *Handler) getAllVisits(c *gin.Context) {
+	visits, err := h.services.VisitList.GetAll()
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, getAllVisitsResponse{
+		Data: visits,
+	})
+}
+
+func (h *Handler) getVisitById(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, "invalid id param")
+		return
+	}
+
+	visit, err := h.services.VisitList.GetById(id)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, visit)
 }

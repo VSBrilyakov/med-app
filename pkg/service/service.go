@@ -24,6 +24,8 @@ type PatientList interface {
 
 type VisitList interface {
 	CreateVisit(input medapp.Visit) (int, error)
+	GetAll() ([]medapp.VisitOutput, error)
+	GetById(id int) (medapp.VisitOutput, error)
 }
 
 type Service struct {
