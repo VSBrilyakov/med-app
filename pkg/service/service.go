@@ -20,12 +20,14 @@ type PatientList interface {
 	CreatePatient(input medapp.Patient) (int, error)
 	GetAll() ([]medapp.Patient, error)
 	GetById(id int) (medapp.Patient, error)
+	UpdatePatient(id int, input medapp.UpdPatient) error
 }
 
 type VisitList interface {
 	CreateVisit(input medapp.Visit) (int, error)
 	GetAll() ([]medapp.VisitOutput, error)
 	GetById(id int) (medapp.VisitOutput, error)
+	UpdateVisit(id int, input medapp.UpdVisit) error
 }
 
 type Service struct {

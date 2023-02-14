@@ -35,6 +35,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			patients.POST("/", h.createPatient)
 			patients.GET("/", h.getAllPatients)
 			patients.GET("/:id", h.getPatientById)
+			patients.PUT("/:id", h.updatePatient)
 		}
 
 		visits := api.Group("/visits")
@@ -42,6 +43,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			visits.POST("/", h.createVisit)
 			visits.GET("/", h.getAllVisits)
 			visits.GET("/:id", h.getVisitById)
+			visits.PUT("/:id", h.updateVisit)
 		}
 	}
 

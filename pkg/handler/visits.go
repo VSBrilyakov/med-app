@@ -57,3 +57,32 @@ func (h *Handler) getVisitById(c *gin.Context) {
 
 	c.JSON(http.StatusOK, visit)
 }
+
+func (h *Handler) updateVisit(c *gin.Context) {
+	_, err := getDoctorId(c)
+	if err != nil {
+		return
+	}
+
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, "invalid id param")
+		return
+	}
+
+	var input medapp.UpdVisit
+	if err := c.BindJSON(&input); err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	if err := h.services.UpdateVisit(id, input); err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"status": "ok",
+	})
+
+}

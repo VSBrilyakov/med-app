@@ -24,3 +24,10 @@ func (s *PatientsListService) GetAll() ([]medapp.Patient, error) {
 func (s *PatientsListService) GetById(id int) (medapp.Patient, error) {
 	return s.repo.GetById(id)
 }
+
+func (s *PatientsListService) UpdatePatient(id int, input medapp.UpdPatient) error {
+	if err := input.Validate(); err != nil {
+		return err
+	}
+	return s.repo.UpdatePatient(id, input)
+}

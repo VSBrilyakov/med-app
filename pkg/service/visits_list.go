@@ -24,3 +24,7 @@ func (s *VisitsListPostgres) GetAll() ([]medapp.VisitOutput, error) {
 func (s *VisitsListPostgres) GetById(id int) (medapp.VisitOutput, error) {
 	return s.repo.GetById(id)
 }
+
+func (s *VisitsListPostgres) UpdateVisit(id int, input medapp.UpdVisit) error {
+	return s.repo.UpdateVisit(id, input)
+}
