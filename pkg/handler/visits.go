@@ -86,3 +86,26 @@ func (h *Handler) updateVisit(c *gin.Context) {
 	})
 
 }
+
+func (h *Handler) deleteVisit(c *gin.Context) {
+	_, err := getDoctorId(c)
+	if err != nil {
+		return
+	}
+
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, "invalid id param")
+		return
+	}
+
+	err = h.services.PatientList.DeletePatient(id)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, statusResponse{
+		Status: "ok",
+	})
+}

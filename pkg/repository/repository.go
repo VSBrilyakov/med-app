@@ -20,6 +20,7 @@ type PatientList interface {
 	GetAll() ([]medapp.Patient, error)
 	GetById(id int) (medapp.Patient, error)
 	UpdatePatient(id int, input medapp.UpdPatient) error
+	DeletePatient(id int) error
 }
 
 type VisitList interface {
@@ -27,6 +28,7 @@ type VisitList interface {
 	GetAll() ([]medapp.VisitOutput, error)
 	GetById(id int) (medapp.VisitOutput, error)
 	UpdateVisit(id int, input medapp.UpdVisit) error
+	DeleteVisit(id int) error
 }
 
 type Repository struct {

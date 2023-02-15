@@ -31,3 +31,7 @@ func (s *PatientsListService) UpdatePatient(id int, input medapp.UpdPatient) err
 	}
 	return s.repo.UpdatePatient(id, input)
 }
+
+func (s *PatientsListService) DeletePatient(id int) error {
+	return s.repo.DeletePatient(id)
+}

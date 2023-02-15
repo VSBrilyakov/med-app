@@ -129,3 +129,10 @@ func (r *VisitsListPostgres) UpdateVisit(id int, input medapp.UpdVisit) error {
 
 	return tx.Commit()
 }
+
+func (r *VisitsListPostgres) DeleteVisit(id int) error {
+	query := fmt.Sprintf("DELETE FROM %s WHERE id=$1", visitsTable)
+	_, err := r.db.Exec(query, id)
+
+	return err
+}

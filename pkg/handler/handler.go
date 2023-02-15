@@ -36,6 +36,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			patients.GET("/", h.getAllPatients)
 			patients.GET("/:id", h.getPatientById)
 			patients.PUT("/:id", h.updatePatient)
+			patients.DELETE("/:id", h.deletePatient)
 		}
 
 		visits := api.Group("/visits")
@@ -44,6 +45,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			visits.GET("/", h.getAllVisits)
 			visits.GET("/:id", h.getVisitById)
 			visits.PUT("/:id", h.updateVisit)
+			visits.DELETE("/:id", h.deleteVisit)
 		}
 	}
 

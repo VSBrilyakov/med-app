@@ -82,3 +82,10 @@ func (r *PatientsListPostgres) UpdatePatient(id int, input medapp.UpdPatient) er
 	_, err := r.db.Exec(query, args...)
 	return err
 }
+
+func (r *PatientsListPostgres) DeletePatient(id int) error {
+	query := fmt.Sprintf("DELETE FROM %s WHERE id=$1", patientsTable)
+	_, err := r.db.Exec(query, id)
+
+	return err
+}
