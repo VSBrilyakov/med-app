@@ -7,6 +7,22 @@ import (
 	medapp "github.com/mnogohoddovochka/med-app"
 )
 
+type successfulLogInResponse struct {
+	Token string `json:"token" example:"eyJhbGcjOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHaiOjE2NzY5MjgyMjYsImlhdCI6MTY3Njg4NTAyNiwiZG9jdG9yX2lkIjoxfQ.meE8ccXLe6kJ3gFNLONIZ_PPGOXknQuYac40flbaQ6g"`
+}
+
+// @Summary SignUp
+// @Tags auth
+// @Description Create doctor account
+// @ID create-account
+// @Accept json
+// @Produce json
+// @Param input body medapp.Doctor true "Doctor main info"
+// @Success 200 {object} newPersonResponse
+// @Failure 400,404 {object} errMessage
+// @Failure 500 {object} errMessage
+// @Failure default {object} errMessage
+// @Router /auth/sign-up [post]
 func (h *Handler) signUp(c *gin.Context) {
 	var input medapp.Doctor
 
@@ -27,10 +43,22 @@ func (h *Handler) signUp(c *gin.Context) {
 }
 
 type signInInput struct {
-	Login    string `json:"login" binding:"required"`
-	Password string `json:"password" binding:"required"`
+	Login    string `json:"login" binding:"required" example:"DrHouse"`
+	Password string `json:"password" binding:"required" example:"ilovemedicine777"`
 }
 
+// @Summary SignUp
+// @Tags auth
+// @Description Doctors log in
+// @ID login
+// @Accept json
+// @Produce json
+// @Param input body signInInput true "Login details"
+// @Success 200 {object} successfulLogInResponse "Returning JWT token"
+// @Failure 400,404 {object} errMessage
+// @Failure 500 {object} errMessage
+// @Failure default {object} errMessage
+// @Router /auth/sign-in [post]
 func (h *Handler) signIn(c *gin.Context) {
 	var input signInInput
 
@@ -45,7 +73,7 @@ func (h *Handler) signIn(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"token": token,
+	c.JSON(http.StatusOK, successfulLogInResponse{
+		Token: token,
 	})
 }

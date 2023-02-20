@@ -1,0 +1,651 @@
+basePath: /
+definitions:
+  handler.errMessage:
+    properties:
+      message:
+        type: string
+    type: object
+  handler.getAllPatientsResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/medapp.Patient'
+        type: array
+    type: object
+  handler.getAllVisitsResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/medapp.VisitOutput'
+        type: array
+    type: object
+  handler.newPersonResponse:
+    properties:
+      id:
+        type: integer
+    type: object
+  handler.signInInput:
+    properties:
+      login:
+        example: DrHouse
+        type: string
+      password:
+        example: ilovemedicine777
+        type: string
+    required:
+    - login
+    - password
+    type: object
+  handler.statusResponse:
+    properties:
+      status:
+        example: ok
+        type: string
+    type: object
+  handler.successfulLogInResponse:
+    properties:
+      token:
+        example: eyJhbGcjOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHaiOjE2NzY5MjgyMjYsImlhdCI6MTY3Njg4NTAyNiwiZG9jdG9yX2lkIjoxfQ.meE8ccXLe6kJ3gFNLONIZ_PPGOXknQuYac40flbaQ6g
+        type: string
+    type: object
+  medapp.Doctor:
+    properties:
+      login:
+        example: DrHouse
+        type: string
+      name:
+        example: Gregory
+        type: string
+      password:
+        example: ilovemedicine777
+        type: string
+      surname:
+        example: House
+        type: string
+    required:
+    - login
+    - name
+    - password
+    - surname
+    type: object
+  medapp.Patient:
+    properties:
+      birthdate:
+        example: "2006-01-25"
+        type: string
+      name:
+        example: Mihail
+        type: string
+      surname:
+        example: Kravcov
+        type: string
+    required:
+    - birthdate
+    - name
+    - surname
+    type: object
+  medapp.UpdPatient:
+    properties:
+      birthdate:
+        example: "2000-05-13"
+        type: string
+      name:
+        example: Igor
+        type: string
+      surname:
+        example: Vasilev
+        type: string
+    type: object
+  medapp.UpdVisit:
+    properties:
+      birthdate:
+        example: "2006-01-25"
+        type: string
+      login:
+        example: DrBykov
+        type: string
+      name:
+        example: Mihail
+        type: string
+      surname:
+        example: Kravcov
+        type: string
+      visitdate:
+        example: "2021-12-26"
+        type: string
+    type: object
+  medapp.Visit:
+    properties:
+      birthdate:
+        example: "2000-05-13"
+        type: string
+      login:
+        example: DrHouse
+        type: string
+      name:
+        example: Igor
+        type: string
+      surname:
+        example: Vasilev
+        type: string
+      visitdate:
+        example: "2022-12-26"
+        type: string
+    required:
+    - birthdate
+    - login
+    - name
+    - surname
+    - visitdate
+    type: object
+  medapp.VisitOutput:
+    properties:
+      date:
+        example: "2022-12-26"
+        type: string
+      docname:
+        example: Gregory
+        type: string
+      docsurname:
+        example: House
+        type: string
+      patientname:
+        example: Igor
+        type: string
+      patientsurname:
+        example: Vasiliev
+        type: string
+    required:
+    - date
+    - docname
+    - docsurname
+    - patientname
+    - patientsurname
+    type: object
+host: localhost:8000
+info:
+  contact: {}
+  description: API Server for MedApp Application
+  title: Med App API
+  version: "1.0"
+paths:
+  /api/patients:
+    get:
+      consumes:
+      - application/json
+      description: Get all patients information
+      operationId: get-all-patients
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.getAllPatientsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+      security:
+      - ApiKeyAuth: []
+      summary: Get All patients
+      tags:
+      - patients
+    post:
+      consumes:
+      - application/json
+      description: Add a patient information into database
+      operationId: create-patient
+      parameters:
+      - description: Patient main info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/medapp.Patient'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.newPersonResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+      security:
+      - ApiKeyAuth: []
+      summary: Create patient
+      tags:
+      - patients
+  /api/patients/:id:
+    delete:
+      consumes:
+      - application/json
+      description: Delete patient information from database
+      operationId: delete-patient
+      parameters:
+      - description: Patient ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.statusResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete patient
+      tags:
+      - patients
+    get:
+      consumes:
+      - application/json
+      description: Get patient information by id
+      operationId: get-patient-by-id
+      parameters:
+      - description: Patient ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/medapp.Patient'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+      security:
+      - ApiKeyAuth: []
+      summary: Get patient By Id
+      tags:
+      - patients
+    put:
+      consumes:
+      - application/json
+      description: update patient info
+      operationId: update-patient
+      parameters:
+      - description: Patient ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: New patient info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/medapp.UpdPatient'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.statusResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+      security:
+      - ApiKeyAuth: []
+      summary: Update patient
+      tags:
+      - patients
+  /api/visits:
+    get:
+      consumes:
+      - application/json
+      description: Get all visits information
+      operationId: get-all-visits
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.getAllVisitsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+      security:
+      - ApiKeyAuth: []
+      summary: Get All visits
+      tags:
+      - visits
+    post:
+      consumes:
+      - application/json
+      description: Add a patient visit into database
+      operationId: create-visit
+      parameters:
+      - description: Visit main info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/medapp.Visit'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.newPersonResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+      security:
+      - ApiKeyAuth: []
+      summary: Create visit
+      tags:
+      - visits
+  /api/visits/:id:
+    delete:
+      consumes:
+      - application/json
+      description: Delete visit information from database
+      operationId: delete-visit
+      parameters:
+      - description: Visit ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.statusResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete visit
+      tags:
+      - visits
+    get:
+      consumes:
+      - application/json
+      description: Get visit information by id
+      operationId: get-visit-by-id
+      parameters:
+      - description: Visit ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/medapp.VisitOutput'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+      security:
+      - ApiKeyAuth: []
+      summary: Get visit By Id
+      tags:
+      - visits
+    put:
+      consumes:
+      - application/json
+      description: update visit information
+      operationId: update-visit
+      parameters:
+      - description: Visit ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: New visit info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/medapp.UpdVisit'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.statusResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+      security:
+      - ApiKeyAuth: []
+      summary: Update visit
+      tags:
+      - visits
+  /auth/sign-in:
+    post:
+      consumes:
+      - application/json
+      description: Doctors log in
+      operationId: login
+      parameters:
+      - description: Login details
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/handler.signInInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Returning JWT token
+          schema:
+            $ref: '#/definitions/handler.successfulLogInResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+      summary: SignUp
+      tags:
+      - auth
+  /auth/sign-up:
+    post:
+      consumes:
+      - application/json
+      description: Create doctor account
+      operationId: create-account
+      parameters:
+      - description: Doctor main info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/medapp.Doctor'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.newPersonResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/handler.errMessage'
+      summary: SignUp
+      tags:
+      - auth
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

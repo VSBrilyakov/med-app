@@ -10,10 +10,14 @@ type errMessage struct {
 }
 
 type statusResponse struct {
-	Status string `json:"status"`
+	Status string `json:"status" example:"ok"`
 }
 
 func newErrorResponse(c *gin.Context, statusCode int, message string) {
 	logrus.Error(message)
 	c.AbortWithStatusJSON(statusCode, errMessage{message})
+}
+
+type newPersonResponse struct {
+	Id int `json:"id" swaggertype:"primitive,integer"`
 }

@@ -29,6 +29,6 @@ func (s *VisitsListPostgres) UpdateVisit(id int, input medapp.UpdVisit) error {
 	return s.repo.UpdateVisit(id, input)
 }
 
-func (s *VisitsListPostgres) DeletePatient(id int) error {
+func (s *VisitsListPostgres) DeleteVisit(id int) error {
 	return s.repo.DeleteVisit(id)
 }
