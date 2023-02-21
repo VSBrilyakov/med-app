@@ -5,6 +5,8 @@ import (
 	"github.com/mnogohoddovochka/med-app/pkg/repository"
 )
 
+//go:generate mockgen -source=service.go -destination=mocks/mock.go
+
 type Authorisation interface {
 	CreateDoctor(doctor medapp.Doctor) (int, error)
 	GenerateToken(login, password string) (string, error)
@@ -29,7 +31,7 @@ type VisitList interface {
 	GetAll() ([]medapp.VisitOutput, error)
 	GetById(id int) (medapp.VisitOutput, error)
 	UpdateVisit(id int, input medapp.UpdVisit) error
-	DeletePatient(id int) error
+	DeleteVisit(id int) error
 }
 
 type Service struct {

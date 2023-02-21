@@ -26,6 +26,16 @@ func (h *Handler) doctorIdentity(c *gin.Context) {
 		return
 	}
 
+	if headerParts[0] != "Bearer" {
+		newErrorResponse(c, http.StatusUnauthorized, "invalid auth header")
+		return
+	}
+
+	if headerParts[1] == "" {
+		newErrorResponse(c, http.StatusUnauthorized, "token is empty")
+		return
+	}
+
 	doctorId, err := h.services.Authorisation.ParseToken(headerParts[1])
 	if err != nil {
 		newErrorResponse(c, http.StatusUnauthorized, err.Error())
